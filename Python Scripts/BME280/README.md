@@ -2,7 +2,7 @@ This Python script interfaces with a BME280 environmental sensor via the I²C pr
 
 The BME280 sensor supports atmospheric data acquisition and is widely used in weather stations, IoT applications, and embedded systems.
 
-The libraries that are needed and how to install.
+The libraries that are needed and how to install:
 
 sudo apt update
 
