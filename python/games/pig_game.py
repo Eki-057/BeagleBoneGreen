@@ -1,36 +1,39 @@
 import random
 
-def kasta(player):
+
+def roll_turn(player: str) -> int:
     total = 0
     while True:
         num = random.randint(1, 6)
         total += num
         if num == 1:
-            print(f"{player}: Sorry, du tappade dina poäng för denna runda!")
+            print(f"{player}: Sorry, you lost your points for this round!")
             return 0
-        print(f"{player}: Summa för detta varv: {total}")
-        val = input(f"{player}: Tryck på k för att kasta på nytt eller s för att spara: ")
-        match val:
-            case "k":
+        print(f"{player}: Total for this round: {total}")
+        choice = input(f"{player}: Press r to roll again or h to hold: ")
+        match choice:
+            case "r":
                 continue
-            case "s":
+            case "h":
                 return total
 
-def main():
-    players = ["Spelare 1", "Spelare 2"]
+
+def main() -> None:
+    players = ["Player 1", "Player 2"]
     scores = {p: 0 for p in players}
     turn = 0
 
     while True:
         current_player = players[turn % 2]
-        print(f"\n{current_player}s tur. Nuvarande poäng: {scores[current_player]}")
-        round_score = kasta(current_player)
+        print(f"\n{current_player}'s turn. Current score: {scores[current_player]}")
+        round_score = roll_turn(current_player)
         scores[current_player] += round_score
-        print(f"{current_player} har nu {scores[current_player]} poäng")
+        print(f"{current_player} now has {scores[current_player]} points")
         if scores[current_player] >= 100:
-            print(f"Grattis {current_player}, du vann med {scores[current_player]} poäng!")
+            print(f"Congratulations {current_player}, you won with {scores[current_player]} points!")
             break
-        input("Tryck 'Enter' för att fortsätta till nästa spelare")
+        input("Press 'Enter' to continue to the next player")
         turn += 1
+
 
 main()

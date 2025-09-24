@@ -1,24 +1,27 @@
 import random
+
+
 def guess():
     num = random.randint(1, 100)
     attempts = 0
     while True:
-        gissning_input = input("Gissa ett nummer mellan ett och hundra: ")
-        if not gissning_input.strip():
-            print("Du måste skriva ett nummer!")
+        guess_input = input("Guess a number between one and one hundred: ")
+        if not guess_input.strip():
+            print("You must enter a number!")
             continue
         try:
-            gissning = int(gissning_input)
+            guess_value = int(guess_input)
         except ValueError:
-            print("Du måste skriva ett giltigt nummer!")
+            print("You must enter a valid number!")
             continue
         attempts += 1
-        if gissning > num:
-            print("Ditt nummer var för stort")
-        elif gissning < num:
-            print("Ditt nummer var för litet")
+        if guess_value > num:
+            print("Your number was too high")
+        elif guess_value < num:
+            print("Your number was too low")
         else:
-            print(f"Grattis, du gissade rätt på {attempts} försök")
+            print(f"Congratulations, you guessed correctly in {attempts} attempts")
             break
+
 
 guess()
