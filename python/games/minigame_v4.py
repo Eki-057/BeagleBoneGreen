@@ -1,9 +1,10 @@
-import random
 import json
 import os
-import time  # Added for timer
+import random
+import time
 
 HIGHSCORE_FILE = "highscores.txt"
+
 
 def load_highscores():
     if not os.path.exists(HIGHSCORE_FILE):
@@ -14,61 +15,71 @@ def load_highscores():
         except Exception:
             return []
 
+
 def save_highscores(highscores):
     with open(HIGHSCORE_FILE, "w", encoding="utf-8") as f:
         json.dump(highscores, f, ensure_ascii=False, indent=2)
 
+
 def show_top5(highscores):
     print("\n--- Top 5 Highscores ---")
     for i, entry in enumerate(highscores[:5], 1):
-        tid = entry.get("time", None)
-        if tid is not None:
-            print(f"{i}. {entry['username']} - {entry['guesses']} gissningar - {tid:.2f} sekunder")
+        elapsed = entry.get("time", None)
+        if elapsed is not None:
+            print(f"{i}. {entry['username']} - {entry['guesses']} guesses - {elapsed:.2f} seconds")
         else:
-            print(f"{i}. {entry['username']} - {entry['guesses']} gissningar")
+            print(f"{i}. {entry['username']} - {entry['guesses']} guesses")
     print("-----------------------\n")
 
-def guess(a, b):
-    username = input("Ange ditt användarnamn: ").strip()
-    while not username:
-        username = input("Användarnamn kan inte vara tomt. Ange ditt användarnamn: ").strip()
 
-    num = random.randint(a, b)
+def guess(lower: int, upper: int):
+    username = input("Enter your username: ").strip()
+    while not username:
+        username = input("Username cannot be empty. Enter your username: ").strip()
+
+    num = random.randint(lower, upper)
     attempts = 0
     congrats = [
-        "Bra jobbat!", "Fantastiskt!", "Du klarade det!", "Snyggt gissat!", "Imponerande!", "Du är en mästare!"
+        "Great job!",
+        "Fantastic!",
+        "You did it!",
+        "Nice guess!",
+        "Impressive!",
+        "You are a champion!",
     ]
-    start_time = time.time()  # Start timer
+    start_time = time.time()
     while True:
-        gissning_input = input(f"Gissa ett nummer mellan {a} och {b}: ")
-        if not gissning_input.strip():
-            print("Du måste skriva ett nummer!")
+        guess_input = input(f"Guess a number between {lower} and {upper}: ")
+        if not guess_input.strip():
+            print("You must enter a number!")
             continue
         try:
-            gissning = int(gissning_input)
+            guess_value = int(guess_input)
         except ValueError:
-            print("Du måste skriva ett giltigt nummer!")
+            print("You must enter a valid number!")
             continue
         attempts += 1
-        if gissning == 69 and random.random() < 0.03:
+        if guess_value == 69 and random.random() < 0.03:
             print("Nice.")
             continue
-        if gissning > num:
-            print("Ditt nummer var för stort")
-        elif gissning < num:
-            print("Ditt nummer var för litet")
+        if guess_value > num:
+            print("Your guess was too high")
+        elif guess_value < num:
+            print("Your guess was too low")
         else:
-            elapsed = time.time() - start_time  # End timer
-            print(f"{random.choice(congrats)} {username}, du gissade rätt på {attempts} försök och {elapsed:.2f} sekunder!")
-            # Save highscore
+            elapsed = time.time() - start_time
+            print(
+                f"{random.choice(congrats)} {username}, you guessed correctly in {attempts} attempts "
+                f"and {elapsed:.2f} seconds!"
+            )
             highscores = load_highscores()
             highscores.append({"username": username, "guesses": attempts, "time": elapsed})
-            highscores.sort(key=lambda x: x["guesses"])  # Sort by guesses
-            # Only keep top 5 scores
+            highscores.sort(key=lambda x: x["guesses"])
             if len(highscores) > 5:
                 highscores = highscores[:5]
             save_highscores(highscores)
             show_top5(highscores)
             break
+
 
 guess(1, 400)

@@ -4,23 +4,22 @@ try:
     # Choose number of players
     while True:
         try:
-            num_players = int(input("Hur många spelare? (1, 2 eller 3): ").strip())
+            num_players = int(input("How many players? (1, 2, or 3): ").strip())
             if num_players in [1, 2, 3]:
                 break
-            else:
-                print("Ange 1, 2 eller 3.")
+            print("Enter 1, 2, or 3.")
         except ValueError:
-            print("Ange ett giltigt heltal (1, 2 eller 3).")
+            print("Enter a valid integer (1, 2, or 3).")
 
     # Get player names
     players = []
     for i in range(num_players):
-        name = input(f"Ange namn för spelare {i+1}: ").strip()
+        name = input(f"Enter a name for player {i + 1}: ").strip()
         players.append(name)
 
     while True:
         goal = random.randint(20, 50)  # Target score
-        print(f"\nMålet är att nå {goal} poäng utan att gå över\n")
+        print(f"\nThe goal is to reach {goal} points without going over\n")
         scores = {p: 0 for p in players}
         stopped = {p: False for p in players}
         quit_game = {p: False for p in players}
@@ -30,7 +29,7 @@ try:
             # Find next player who hasn't quit or stopped
             active_players = [p for p in players if not stopped[p] and not quit_game[p]]
             if not active_players:
-                print("\nAlla spelare har slutat eller stannat. Spelet avslutas.\n")
+                print("\nAll players have stopped or quit. The game ends.\n")
                 break
             current_player = players[turn % num_players]
             # Skip if player has quit or stopped
@@ -38,25 +37,29 @@ try:
                 turn += 1
                 continue
 
-            print(f"{current_player}s tur. Du har nu {scores[current_player]} poäng och målet är {goal}.")
-            val = input("skriv '+' för att kasta på nytt, '-' för att stanna, eller 'q' för att sluta: ").strip()
-            if val == "+":
+            print(
+                f"{current_player}'s turn. You now have {scores[current_player]} points and the goal is {goal}."
+            )
+            value = input(
+                "enter '+' to roll again, '-' to hold, or 'q' to quit: "
+            ).strip()
+            if value == "+":
                 num = random.randint(1, 15)  # "dice"
-                print(f"Du kastade {num} och har nu totalt {scores[current_player] + num} poäng\n")
+                print(f"You rolled {num} and now have a total of {scores[current_player] + num} points\n")
                 scores[current_player] += num
                 if scores[current_player] > goal:
-                    print(f"BUST! {current_player} har {scores[current_player]} vilket gick över \n")
+                    print(f"BUST! {current_player} has {scores[current_player]} which went over\n")
                     scores[current_player] = 0
                     stopped[current_player] = True
-            elif val == "-":
-                print(f"{current_player} har stannat på {scores[current_player]} poäng!")
+            elif value == "-":
+                print(f"{current_player} has held at {scores[current_player]} points!")
                 stopped[current_player] = True
-            elif val.lower() == "q":
-                print(f"{current_player} har valt att sluta spela.")
+            elif value.lower() == "q":
+                print(f"{current_player} has chosen to stop playing.")
                 quit_game[current_player] = True
                 stopped[current_player] = True
             else:
-                print("ogiltigt val, försök igen")
+                print("Invalid choice, try again")
                 continue
 
             # Check if all players have stopped
@@ -67,20 +70,24 @@ try:
                     if scores[p] <= goal:
                         diffs[p] = goal - scores[p]
                     else:
-                        diffs[p] = float('inf')
+                        diffs[p] = float("inf")
                 min_diff = min(diffs.values())
-                winners = [p for p, d in diffs.items() if d == min_diff]
+                winners = [p for p, diff in diffs.items() if diff == min_diff]
                 if len(winners) == 1:
-                    print(f"\n{winners[0]} vinner med {scores[winners[0]]} poäng, närmast målet {goal}!\n")
+                    print(
+                        f"\n{winners[0]} wins with {scores[winners[0]]} points, closest to the goal {goal}!\n"
+                    )
                 else:
-                    print(f"\nOavgjort! {' och '.join(winners)} är lika nära målet {goal}.\n")
+                    print(
+                        f"\nTie! {' and '.join(winners)} are equally close to the goal {goal}.\n"
+                    )
                 break
 
             turn += 1  # Next player's turn
 
-        play_again = input("Vill ni spela igen? (j/n): ")
-        if play_again.lower() != 'j':
-            print("Tack för att ni spelade!")
+        play_again = input("Do you want to play again? (y/n): ")
+        if play_again.lower() != "y":
+            print("Thanks for playing!")
             break
 except KeyboardInterrupt:
-    print("\nSpelet avslutat. Tack för att ni spelade!")
+    print("\nGame ended. Thanks for playing!")
