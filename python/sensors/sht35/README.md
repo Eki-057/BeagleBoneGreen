@@ -17,6 +17,13 @@ sudo apt install python3-pip python3-smbus i2c-tools
 pip3 install --user smbus2
 ```
 
+If it gives you errors, you can try the following instead:
+
+```bash
+sudo apt update
+sudo apt install python3-pip python3-smbus2 i2c-tools
+```
+
 You can verify the sensor is present by running `i2cdetect -y 2` and confirming that the expected address appears in the map.
 
 ## Running the example
