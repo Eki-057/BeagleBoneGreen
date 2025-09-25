@@ -7,7 +7,7 @@ This repository contains small experiments and demonstrations for the BeagleBone
 - `python/`
   - `games/` – Console games and exercises originally written for fun while experimenting with Python.
   - `gpio/` – Scripts that exercise the BeagleBone Green GPIO lines using `libgpiod`.
-  - `sensors/` – Drivers and helpers for hardware such as the BME280 environmental sensor.
+  - `sensors/` – Drivers and helpers for hardware such as the BME280 and SHT35 environmental sensors.
 - `javascript/`
   - `games/` – Browser games created alongside the Python experiments.
   - `usr_led_blink.js` – Example that toggles the on-board USR LED from Node.js.
