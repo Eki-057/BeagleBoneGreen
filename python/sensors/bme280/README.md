@@ -1,20 +1,27 @@
-# Environmental sensor examples
+# BME280 environmental sensor example
 
-This directory groups together I²C-based environmental sensor examples for the BeagleBone Green. Each subdirectory contains a dedicated script and README describing the expected wiring and usage instructions.
+This folder contains a Python script that reads temperature, humidity,
+and pressure data from a Bosch BME280 sensor connected to the
+BeagleBone Green via I²C.
 
-## BME280 (temperature, humidity, pressure)
-
-`bme280.py` demonstrates how to read data from a Bosch BME280 sensor and print temperature, humidity, and pressure values in a loop.
-
-### Requirements
+## Requirements
 
 ```bash
 sudo apt update
 sudo apt install python3-smbus python3-pip python3-bme280 i2c-tools
 ```
 
-Ensure your BeagleBone Green runs kernel version `6.15.9-bone25` or newer and that the BME280 sensor is connected to the J4 header.
+## Running the example
 
-## SHT35 (temperature, humidity)
+1. Connect the BME280 to the `/dev/i2c-2` bus on the BeagleBone Green
+   (typically header J4) and confirm the device appears with
+   `i2cdetect -y 2`.
+2. From this directory, run the script:
 
-The `sht35/` folder contains an example that communicates with a Sensirion SHT35 sensor using the `smbus2` library. Refer to [`sht35/README.md`](sht35/README.md) for hardware notes, software dependencies, and execution steps.
+   ```bash
+   cd ~/BeagleBoneGreen/python/sensors/bme280
+   python3 bme280.py
+   ```
+
+The script prints the measured values every few seconds until you press
+<kbd>Ctrl</kbd>+<kbd>C</kbd>.

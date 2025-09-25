@@ -24,7 +24,7 @@ You can verify the sensor is present by running `i2cdetect -y 2` and confirming 
 Execute the script directly to start an interactive readout loop. Press <kbd>Ctrl</kbd>+<kbd>C</kbd> to stop the program.
 
 ```bash
-cd ~/BeagleBoneGreen/python/sensors/bme280/sht35
+cd ~/BeagleBoneGreen/python/sensors/sht35
 python3 sht35.py
 ```
 
