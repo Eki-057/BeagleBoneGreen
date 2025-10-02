@@ -1,0 +1,1 @@
+There are two folders, one being a code for a mini server and the other for a mini client. Made so two beaglebone greens can communicate with each other through ethernet.
